@@ -1,8 +1,9 @@
 import React from 'react';
-import {Image, TouchableOpacity, View, Text, StyleSheet} from "react-native";
+import {Image, TouchableOpacity, Text, StyleSheet} from "react-native";
 
 function TodoSingleButton(props) {
     const {title,icon,onPress} = props
+    console.log(title,'title')
     return (
             <TouchableOpacity style={styles.button} onPress={onPress}>
                 <Image style={styles.icon} source={icon}/>
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
     title:{
         color:'#fff',
         fontSize:18,
+        marginTop:7,
         textAlign:'center'
     },
     icon:{

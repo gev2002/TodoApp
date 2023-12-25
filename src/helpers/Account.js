@@ -12,7 +12,8 @@ class Account {
     };
     static setToken = async(token) => {
         this.#token = token;
-        return AsyncStorage.setItem('token', token).catch(console.error);
+        console.log(this.#token, 'tok hash')
+        return await AsyncStorage.setItem('token', token).catch(console.error);
     };
     static delete = async () => {
         await AsyncStorage.removeItem('token').catch(console.error)

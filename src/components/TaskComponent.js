@@ -3,11 +3,11 @@ import {Image, StyleSheet, Text, View} from "react-native";
 import CompletedIcon from "../assets/images/icons/complated-icon.png";
 
 function TaskComponent(props) {
-    const {completedIcon,title,text,arrow, lineHeight,isCompleted} = props
+    const {completedIcon= '',title,text,arrow, lineHeight,isCompleted} = props
 
     return (
         <View style={[styles.task,completedIcon ? {paddingLeft:50}: {},lineHeight ? {marginTop:40} : {}]}>
-            {completedIcon ? <Image style={styles.completedIcon} source={completedIcon}/> : null}
+            {completedIcon && <Image style={styles.completedIcon} source={completedIcon}/>}
             <View style={styles.titleView}>
                 <Text style={styles.title}>{title}</Text>
                 {isCompleted && <Image source={CompletedIcon} style={styles.taskIcon} />}

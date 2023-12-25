@@ -1,62 +1,59 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView,FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import MagnifyingGlassIcon from '../assets/images/icons/magnifying-glass.png'
-import TaskComponent from "../components/TaskComponent";
-import ArrowRight from '../assets/images/icons/arrow-right.png'
-import EllipseIcon from '../assets/images/icons/elipse.svg'
-import PlusIcon from '../assets/images/icons/plus-icon.svg'
-import CreateTaskModal from "../components/CreateTaskModal";
+import MagnifyingGlassIcon from '../../assets/images/icons/magnifying-glass.png'
+import TaskComponent from "../../components/TaskComponent";
+import ArrowRight from '../../assets/images/icons/arrow-right.png'
+import EllipseIcon from '../../assets/images/icons/elipse.svg'
+import PlusIcon from '../../assets/images/icons/plus-icon.svg'
+import CreateTaskModal from "../../components/CreateTaskModal";
 import {useNavigation} from "@react-navigation/native";
 import {useSelector} from "react-redux";
-import _ from "lodash";
 import SelectDropdown from 'react-native-select-dropdown'
+import _ from "lodash";
 
 function TodoList() {
     const [visible,setVisible] = useState(false)
     const [value,setValue] = useState('')
-    // const [searchResult,setSearchResult] = useState([])
     const [sortedBy,setSortedBy] = useState([])
     const navigation = useNavigation()
-    const todos = useSelector(state => state.todosReducer.todos || [])
+    useEffect(() => {
+
+    }, []);
+    const todos = useSelector(state => state.todosReducer.data)
+
+    console.log(todos , ' todos todo s')
     const handleSorting = useCallback((sort)=>{
-
-        if (sort.toLowerCase() === 'not done'){
-            console.log(sort,'nnnnn')
+        if (sort.toLowerCase() === 'time'){
             const sorted = [...todos].sort((a, b)=>{
-                if (a.completed === b.completed){
+                if (a.time > b.time){
                     return 1
-                }else if(!a.completed === b.completed){
-                    return  0
-                }else{
+                }else if(a.time < b.time){
                     return -1
+                }else{
+                    return  0
+
                 }
             })
+            setSortedBy(sorted)
         }
-        if (sort.toLowerCase() === 'done'){
-            console.log(sort,'ddddd')
+        if (sort.toLowerCase() === 'day'){
             const sorted = [...todos].sort((a, b)=>{
-                if (a.completed === b.completed){
+                if (a.day > b.day){
                     return 1
-
-                }else if(!a.completed === b.completed){
+                }else if(a.day < b.day){
+                    return -1
+                }else{
                     return  0
 
-                }else{
-                    return -1
                 }
             })
-            console.log(sorted, 'not sort')
+            setSortedBy(sorted)
+
         }
     },[sortedBy])
 
-    const searchResult = _.uniqBy(todos.filter((i) => (i?.todo?.trim().toLowerCase().indexOf(value?.toLowerCase()) > -1)), 'todo');
-    console.log(searchResult,'value')
-    // const handleSearch = useCallback((text)=>{
-    //     console.log(value, 'valueeee')
-    //     // const searchedTodos = todos.filter(e=> e.todo.toLowerCase().includes(value))
-    //     setSearchResult(searchedTodos)
-    // },[todos,searchResult,value])
+    const searchResult = todos.filter(i => i.task.toLowerCase().includes(value))
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -78,7 +75,7 @@ function TodoList() {
                         rowTextStyle={{color:'#fff'}}
                         buttonStyle={{backgroundColor:"#05243E",marginLeft:10, borderRadius:15,width:90}}
                         dropdownStyle={{backgroundColor:"#05243E", borderRadius:15,width:90}}
-                        data={['Done','Not Done']}
+                        data={['Day','Time']}
                         onSelect={(selectedItem) => handleSorting(selectedItem)}
                         />
                 </View>
@@ -88,7 +85,7 @@ function TodoList() {
                             <TouchableOpacity key={elem.id} onPress={()=> {
                             navigation.navigate("TodoSingle", {todo: elem})
                         }}>
-                        <Text style={styles.searchTodo}>{elem.todo}</Text>
+                        <Text style={styles.searchTodo}>{elem.task}</Text>
                           </TouchableOpacity>
                             ))}
                     </ScrollView> : null}
@@ -104,10 +101,10 @@ function TodoList() {
                                 <TouchableOpacity key={item.id} onPress={()=> {
                                     navigation.navigate("TodoSingle",{todo:item})
                                 }}>
-                                    <TaskComponent title={item.todo} text={"Tomorrow | 10:30pm"} isCompleted={item.completed}  arrow={ArrowRight} lineHeight/>
+                                    <TaskComponent title={item.task} text={`${item.day } | ${item.time}`} isCompleted={item.isDone}  arrow={ArrowRight} lineHeight/>
                                 </TouchableOpacity>
                         )}
-                            data={todos}
+                            data={!_.isEmpty(sortedBy) ? sortedBy : todos}
                         />
 
                     <TouchableOpacity style={styles.addIcon} onPress={()=>setVisible(true)}>
@@ -142,7 +139,7 @@ const styles = StyleSheet.create({
     searchTodo:{
       color:'white',
         fontSize:18,
-        lineHeight:30,
+        lineHeight:35,
 
     },
     searchView:{
@@ -155,7 +152,8 @@ const styles = StyleSheet.create({
         borderRadius:10,
         backgroundColor:'#102D53',
         position:'absolute',
-        zIndex:3
+        zIndex:3,
+        flex:1
     },
     input:{
         backgroundColor:'#102D53',

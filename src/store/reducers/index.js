@@ -1,12 +1,10 @@
 import {loginReducer} from "./login";
-import {todosReducer} from "./todo";
-import {getTodosReducer} from "./todos";
-
+import {todosReducer} from './todos'
 
 const reducer = {
     loginReducer,
-    todosReducer,
-    getTodosReducer
+    todosReducer
+
 }
 
 export default reducer

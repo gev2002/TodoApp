@@ -1,6 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {ActivityIndicator, Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import React, { useState} from 'react';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import PopUpModal from "./PopUpModal";
 
 function ButtonComponent(props) {
@@ -36,12 +35,7 @@ const styles = StyleSheet.create({
         textAlignVertical:'center',
         textAlign:'center',
         width:310,
-        // fontFamily: 'Poppins';
         fontSize: 18,
-        // font-style: normal;
-        // font-weight: 500;
-        // line-height: normal;
-        // letter-spacing: 1.62px;
     },
 
     container:{

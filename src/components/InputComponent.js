@@ -1,15 +1,12 @@
-import React, {useState} from 'react';
-import {Dimensions, Image, StyleSheet, TextInput, View} from "react-native";
+import React from 'react';
+import { Image, StyleSheet, TextInput, View} from "react-native";
 function InputComponent(props) {
     const {icon,placeholder,styleProp,styleInput,value,onChange} = props
-    // const [value,setValue] = useState('')
     console.log(value,'value')
     return (
         <View style={styles.container}>
             <Image source={icon} style={[styles.icon,styleProp]}/>
             <TextInput placeholderTextColor={'rgba(0, 0, 0, 0.44)'} style={[styles.input,styleInput]} placeholder={placeholder} value={value} onChangeText={onChange}
-                       // keyboardType={props.keyboard}
-
             />
         </View>
     );

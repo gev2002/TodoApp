@@ -1,15 +1,11 @@
 import {createReducer} from "@reduxjs/toolkit/src";
 import {loginRequest} from "../actions/login";
-import Account from "../../helpers/Account";
 
 
 const initialState = {
     data:{},
     error:null
 }
-
-
-
 
 export const loginReducer = createReducer(initialState,(builder)=>{
     builder

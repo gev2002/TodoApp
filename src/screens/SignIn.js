@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import InputComponent from "../components/InputComponent";
@@ -7,9 +7,8 @@ import LockIcon from '../assets/images/icons/lock.png'
 import CheckMark from '../assets/images/icons/checkmark.png'
 import ButtonComponent from "../components/ButtonComponent";
 import ExternalButtons from "../components/ExternalButtons";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {loginRequest} from "../store/actions/login";
-import {loginReducer} from "../store/reducers/login";
 import {useNavigation} from "@react-navigation/native";
 import Account from "../helpers/Account";
 
@@ -21,23 +20,19 @@ function SignIn(props) {
     const [loading,setLoading] = useState(false)
     const dispatch = useDispatch()
     const navigation = useNavigation()
-    const handleSubmit = useCallback(()=>{
-        setLoading(true)
-        console.log(loading, 'trueeeee')
-        dispatch(loginRequest(form))
-        setLoading(false)
-        console.log(loading, 'ffffffffffffffffffffffalse')
-    },[form,loading])
-
-    useEffect(() => {
-        (async ()=>{
-           const token = await Account.getToken()
+    const handleSubmit = useCallback(async ()=>{
+        if (form.username.length && form.password.length > 5){
+            setLoading(true)
+            dispatch(loginRequest(form))
+            const token = await Account.getToken()
+            console.log(token , 'tok token')
             if (token){
                 navigation.navigate('LoginNavigation')
             }
-        })()
-    }, [loading]);
-    console.log(loading, 'fffffff')
+            setLoading(false)
+        }
+
+    },[form,loading])
     return (
         <View style={styles.container}>
             <LinearGradient

@@ -14,7 +14,6 @@ import Carousel from "react-native-reanimated-carousel/src/Carousel";
 function Welcome(props) {
     const navigation = useNavigation()
     const {width} = Dimensions.get('screen')
-    console.log(width,666)
     const data = [
         {   id:1,
             img:NotepadImg,
@@ -30,8 +29,6 @@ function Welcome(props) {
             id:3,
             img:TeamManagementImg,
             title:'Create a team task, invite people and manage your work together',
-
-
         },
         {
             id:4,
@@ -62,10 +59,12 @@ function Welcome(props) {
                             style={styles.img}
                         />
                         <Text style={styles.title}>{item.title}</Text>
-                        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate("SignIn")}>
-                            <Image source={item.buttonBackground}/>
-                            <Image source={item.button} style={styles.doneButton}/>
-                        </TouchableOpacity>
+                        {item.buttonBackground && (
+                            <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate("SignIn")}>
+                                <Image source={item.buttonBackground}/>
+                                <Image source={item.button} style={styles.doneButton}/>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 )}
             />

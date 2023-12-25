@@ -8,7 +8,6 @@ export const loginRequest = createAsyncThunk(
     async (payload,thunkAPI)=>{
         try{
             const {data} = await Api.login(payload)
-            console.log(data, 'actttttion')
             const {token} = data
             await Account.setToken(token)
             return data

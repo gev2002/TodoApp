@@ -7,26 +7,31 @@ import TimeSvg from '../assets/images/icons/todoListIcons/time-vector.svg'
 import CalendarSvg from '../assets/images/icons/todoListIcons/calendar-vector.svg'
 import DescSvg from '../assets/images/icons/todoListIcons/description-vector.svg'
 import {useDispatch} from "react-redux";
-import {todoAddRequest} from "../store/actions/todo";
+import {addTodo} from "../store/actions/todos";
+import moment from 'moment'
+import 'react-native-get-random-values';
+import {v4 as uuidV4} from 'uuid'
 
 function CreateTaskModal(props) {
     const {visible,onClose} = props
     const [date, setDate] = useState({
-        day:new Date(),
-        time:new Date()
+        day:moment().toDate(),
+        time:moment().toDate()
     })
     const [form,setForm] = useState({
         task:'',
         description:'',
+        isPin:false,
+        isDone:false,
     })
     const [open,setOpen] = useState({
         time:false,
         day:false
     })
     const dispatch = useDispatch()
-
+    const t = {ll:"ll",aa:'aa',gg:'tt'}
     const handleSubmit = useCallback(()=>{
-        dispatch(todoAddRequest(form))
+        dispatch(addTodo({...form,id:uuidV4().replaceAll('-',''),day:date.day.toString().substring(0,15), time:date.time.toString().substring(16,21)}))
     },[form])
     return (
         <Modal
@@ -41,12 +46,12 @@ function CreateTaskModal(props) {
         >
         <View style={styles.createTaskView}>
             <View>
-                <TaskSvg style={styles.taskIcon} onChangeText={(text)=>setForm({...form,task: text})} width={20} fill={'white'} height={20}/>
-                <TextInput value={form.task} placeholderTextColor={"#fff"} placeholder={"task"} style={styles.input}/>
+                <TaskSvg style={styles.taskIcon}  width={20} fill={'white'} height={20}/>
+                <TextInput value={form.task} onChangeText={(text)=>setForm({...form,task: text})} placeholderTextColor={"#fff"} placeholder={"task"} style={styles.input}/>
             </View>
             <View>
                 <DescSvg style={styles.descIcon} width={20} fill={'white'} height={20}/>
-                <TextInput value={form.description} onChangeText={(text)=>setForm({...form,description: text})} multiline={true} numberOfLines={3}  style={styles.textArea} placeholderTextColor={"#fff"} placeholder={"Description"}/>
+                <TextInput value={form.description} onChangeText={(text)=>setForm({...form,description: text})} style={styles.textArea} placeholderTextColor={"#fff"} placeholder={"Description"}/>
             </View>
             <View style={styles.dateView}>
                     {open.day && (
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
         width:330,
         color:'white',
         paddingHorizontal:35,
-        height:100,
+        height:60,
 
     },
     inputDate:{
@@ -173,7 +178,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     button:{
-        marginTop:15,
+        marginTop:50,
         width:150,
         height:40,
         borderRadius:10,
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
     descIcon:{
         position:'absolute',
         left:7,
-        bottom:70,
+        bottom:20,
         zIndex:3
     }
 })

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import UserIcon from '../assets/images/icons/settingsIcons/user-settings.png'
 import CommentIcon from '../assets/images/icons/settingsIcons/comment-settings.png'
@@ -33,22 +33,6 @@ function Settings(props) {
             navigation.navigate("SignIn")
         }
     },[])
-    // useEffect(() => {
-    //     BackHandler.addEventListener('hardwareBackPress',()=>{
-    //         Alert.alert(
-    //             "Exit",
-    //             "are you sure?",
-    //             [{
-    //                 text: "Yes", onPress: () => BackHandler.exitApp(),
-    //             }, {
-    //                 text: "No", onPress: () => {
-    //                 },
-    //             }],
-    //         );
-    //
-    //         return true;
-    //     })
-    // }, []);
     return (
         <View style={styles.container}>
             <LinearGradient
